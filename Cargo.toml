@@ -1,0 +1,8 @@
+[package]
+name = "riskguard"
+version = "1.0.0"
+edition = "2021"
+authors = ["Gabriel Demetrios Lafis"]
+license = "MIT"
+
+[dependencies]
