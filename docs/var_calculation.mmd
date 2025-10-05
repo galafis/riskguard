@@ -1,0 +1,52 @@
+sequenceDiagram
+    participant User
+    participant RiskGuard
+    participant Portfolio as Portfolio Manager
+    participant VaR as VaR Calculator
+    participant StopLoss as Stop Loss Monitor
+    
+    User->>RiskGuard: Add position (BTCUSD)
+    RiskGuard->>Portfolio: Register position
+    Portfolio->>Portfolio: Store entry price
+    Portfolio-->>RiskGuard: Position added
+    
+    User->>RiskGuard: Add position (ETHUSD)
+    RiskGuard->>Portfolio: Register position
+    Portfolio-->>RiskGuard: Position added
+    
+    User->>RiskGuard: Update market prices
+    RiskGuard->>Portfolio: Update current prices
+    Portfolio->>Portfolio: Calculate unrealized P&L
+    Portfolio-->>RiskGuard: Prices updated
+    
+    User->>RiskGuard: Calculate total P&L
+    RiskGuard->>Portfolio: Query all positions
+    Portfolio-->>RiskGuard: Position list
+    RiskGuard->>RiskGuard: Sum P&L across positions
+    RiskGuard-->>User: Total P&L: $5,000
+    
+    User->>RiskGuard: Calculate VaR (95%)
+    RiskGuard->>VaR: Request VaR calculation
+    VaR->>Portfolio: Get position values
+    Portfolio-->>VaR: Position data
+    VaR->>VaR: Calculate portfolio value
+    VaR->>VaR: Assume volatility (σ = 5%)
+    VaR->>VaR: Z-score for 95% = 1.645
+    VaR->>VaR: VaR = Value × σ × Z
+    VaR-->>RiskGuard: VaR = $3,275
+    RiskGuard-->>User: VaR (95%): $3,275
+    
+    User->>RiskGuard: Check stop losses
+    RiskGuard->>StopLoss: Monitor positions
+    StopLoss->>Portfolio: Get current P&L per position
+    Portfolio-->>StopLoss: Position P&L
+    loop For each position
+        StopLoss->>StopLoss: Check if loss > max_loss%
+        alt Loss exceeds limit
+            StopLoss->>StopLoss: Flag for closure
+        else Within limits
+            StopLoss->>StopLoss: Continue monitoring
+        end
+    end
+    StopLoss-->>RiskGuard: All positions OK
+    RiskGuard-->>User: ✅ All within risk limits

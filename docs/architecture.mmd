@@ -1,0 +1,63 @@
+graph TB
+    subgraph "Input Layer"
+        POS[Positions]
+        PRICE[Market Prices]
+        CONFIG[Risk Config]
+    end
+    
+    subgraph "RiskGuard Core"
+        RG[Risk Guard Engine]
+        PM[Position Manager]
+        RG --> PM
+    end
+    
+    subgraph "Risk Calculations"
+        VAR[VaR Calculator]
+        PNL[P&L Tracker]
+        EXP[Exposure Monitor]
+        VAR --> HIST[Historical Method]
+        VAR --> PARAM[Parametric Method]
+        VAR --> MC[Monte Carlo - Future]
+    end
+    
+    subgraph "Risk Controls"
+        SL[Stop Loss Monitor]
+        CB[Circuit Breaker]
+        LIM[Position Limits]
+    end
+    
+    subgraph "Analytics"
+        PERF[Performance Metrics]
+        REP[Risk Reports]
+        ALERT[Alert System]
+    end
+    
+    subgraph "Output"
+        DASH[Dashboard - Future]
+        API[REST API - Future]
+        LOG[Audit Log]
+    end
+    
+    POS --> RG
+    PRICE --> RG
+    CONFIG --> RG
+    RG --> VAR
+    RG --> PNL
+    RG --> EXP
+    RG --> SL
+    RG --> CB
+    RG --> LIM
+    PM --> PERF
+    VAR --> REP
+    PNL --> REP
+    SL --> ALERT
+    CB --> ALERT
+    REP --> DASH
+    REP --> API
+    ALERT --> LOG
+    
+    style RG fill:#ff9999
+    style VAR fill:#99ccff
+    style SL fill:#ffcc99
+    style CB fill:#ff6666
+    style PERF fill:#99ff99
