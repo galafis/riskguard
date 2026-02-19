@@ -13,6 +13,20 @@
 
 **RiskGuard** is an advanced risk management system for trading operations built in Rust. It provides real-time portfolio monitoring, VaR calculations, position sizing, and automated risk controls.
 
+```mermaid
+flowchart LR
+    A[Market Data\nPositions & Prices] --> B[Risk Assessment\nExposure Monitoring]
+    B --> C[VaR Calculation\nHistorical / Monte Carlo]
+    C --> D[Limit Monitoring\nCircuit Breakers]
+    D --> E[Alerts\nStop Loss / Notifications]
+
+    style A fill:#1a73e8,color:#fff
+    style B fill:#f4b400,color:#000
+    style C fill:#db4437,color:#fff
+    style D fill:#0f9d58,color:#fff
+    style E fill:#e65100,color:#fff
+```
+
 ### ✨ Key Features
 
 - **Value at Risk (VaR)**: Historical, parametric, and Monte Carlo methods
